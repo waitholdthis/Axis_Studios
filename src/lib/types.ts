@@ -33,6 +33,16 @@ export type GuidedRoute = {
   intent: 'buyer' | 'leasing' | 'operations' | 'accessibility'
 }
 
+export type ProofClaim = {
+  id: string
+  claim: string
+  category: 'measurement' | 'finish' | 'natural-light' | 'flow' | 'accessibility' | 'upgrade'
+  sceneIds: string[]
+  confidence: number
+  status: 'verified' | 'needs-review' | 'unsupported'
+  note?: string
+}
+
 export type Tour = {
   id: string
   title: string
@@ -45,5 +55,6 @@ export type Tour = {
   propertyType?: 'residential' | 'commercial' | 'hospitality' | 'construction' | 'venue'
   totalSquareFeet?: number
   guidedRoutes?: GuidedRoute[]
+  proofClaims?: ProofClaim[]
   scenes: Scene[]
 }

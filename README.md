@@ -11,6 +11,7 @@ A legally distinct 3D/360 virtual-tour platform prototype built with Vite, React
 - Measurement intelligence with room-level square footage, ceiling-height metadata, coverage scoring, and total property area.
 - Guided routes for buyer, leasing, operations, and accessibility narratives.
 - Conversion analytics and buyer-intent scoring from views, dwell time, scene entries, share opens, and lead actions.
+- Axis Proof Layer: scene-backed listing claims, trust scoring, audit fingerprints, and buyer objection analysis for verifiable due diligence.
 - Clickable navigation, info, media, and lead hotspots.
 - Browser-based studio/editor.
 - Add scenes, hotspots, floorplan coordinates, and scan-quality metadata.
@@ -21,7 +22,7 @@ A legally distinct 3D/360 virtual-tour platform prototype built with Vite, React
 - Draft/published state and iframe embed generator.
 - Seeded demo residence with three connected scan points.
 - Backend cutover cockpit with API contracts, Postgres/storage schema manifest, CRM webhook fields, and Stripe price metadata.
-- Enterprise export contracts for guided routes, analytics events, measurement fields, and spatial intelligence reports.
+- Enterprise export contracts for guided routes, analytics events, measurement fields, proof claims, proof packets, and spatial intelligence reports.
 
 ## Commands
 

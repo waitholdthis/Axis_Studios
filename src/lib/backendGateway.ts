@@ -157,6 +157,18 @@ export function buildBackendEndpoints(config: BackendConfig, workspace: SaaSWork
       purpose: 'Return measurement coverage, guided routes, buyer-intent score, and competitive readiness for the active tour.',
       payload: 'SpatialIntelligenceReport',
     },
+    {
+      method: 'GET',
+      path: `/api/tours/${activeTourId}/proof-packet`,
+      purpose: 'Return scene-backed listing claims, buyer objections, trust score, and audit fingerprint for due diligence.',
+      payload: 'SpatialProofPack',
+    },
+    {
+      method: 'POST',
+      path: `/api/tours/${activeTourId}/proof-claims`,
+      purpose: 'Create or update verified, reviewer-gated, or unsupported claims tied to scan evidence.',
+      payload: 'ProofClaimUpsertRequest',
+    },
   ]
 }
 
@@ -209,6 +221,8 @@ export function createBackendManifest(workspace: SaaSWorkspace, config: BackendC
       scenes: ['id', 'tour_id', 'name', 'floor', 'panorama_url', 'initial_yaw', 'initial_pitch', 'floorplan_x', 'floorplan_y', 'scan_quality', 'square_feet', 'ceiling_height_ft', 'sort_order'],
       hotspots: ['id', 'scene_id', 'type', 'label', 'yaw', 'pitch', 'target_scene_id', 'body'],
       guided_routes: ['id', 'tour_id', 'name', 'intent', 'scene_ids', 'created_at', 'updated_at'],
+      proof_claims: ['id', 'tour_id', 'claim', 'category', 'scene_ids', 'confidence', 'status', 'note', 'created_at', 'updated_at'],
+      proof_packets: ['id', 'tour_id', 'trust_score', 'audit_fingerprint', 'buyer_objections', 'generated_at'],
       assets: ['id', 'tour_id', 'name', 'type', 'url', 'size_mb', 'created_at'],
       leads: ['id', 'tour_id', 'name', 'email', 'phone', 'message', 'source', 'status', 'created_at'],
       review_comments: ['id', 'tour_id', 'scene_id', 'author', 'body', 'status', 'x', 'y', 'created_at'],

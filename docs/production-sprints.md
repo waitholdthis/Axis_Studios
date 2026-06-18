@@ -54,6 +54,19 @@ Shipped:
 Why it matters:
 Top spatial platforms do more than display 360 imagery. They make tours operational: measurable, narratable, attributable, and exportable for enterprise buyers.
 
+## Sprint 5 — Axis Proof Layer
+
+Shipped:
+- Scene-backed proof claims that turn listing language into verifiable tour evidence.
+- A trust score combining claim confidence, evidence coverage, measurement coverage, guided routes, and unsupported-claim risk.
+- Audit fingerprints for proof packets so buyer-facing claims can be exported as durable due-diligence artifacts.
+- Buyer objection analysis that calls out measurement gaps, unsupported claims, and reviewer-gated accessibility language before a deal room goes live.
+- A new Axis Proof Layer UI panel that surfaces the claim ledger, objection engine, trust score, and exportable packet identity.
+- Backend manifest expansion for `proof_claims`, `proof_packets`, `/api/tours/:id/proof-packet`, and `/api/tours/:id/proof-claims`.
+
+Why it matters:
+Most spatial-tour competitors sell prettier walkthroughs. AxisTour can sell trust: every important promise is attached to evidence, risk, and a packet a buyer, broker, builder, insurer, or enterprise client can review.
+
 ## Competitive Product Standard
 
 AxisTour now needs every future sprint to preserve these minimum bars:

@@ -19,6 +19,42 @@ export const demoTour: Tour = {
     { id: 'route_buyer_highlights', name: 'Buyer highlight path', intent: 'buyer', sceneIds: ['foyer', 'great-room', 'kitchen'] },
     { id: 'route_accessibility_entry', name: 'Entry-to-living accessibility route', intent: 'accessibility', sceneIds: ['foyer', 'great-room'] },
   ],
+  proofClaims: [
+    {
+      id: 'proof_measured_area',
+      claim: 'The primary public rooms are measured and tied to the walkthrough instead of being brochure-only claims.',
+      category: 'measurement',
+      sceneIds: ['foyer', 'great-room', 'kitchen'],
+      confidence: 89,
+      status: 'verified',
+      note: 'Measurement evidence is derived from room metadata and total listed area.',
+    },
+    {
+      id: 'proof_entertaining_flow',
+      claim: 'The foyer, great room, and kitchen create a clear entertaining flow for buyers.',
+      category: 'flow',
+      sceneIds: ['foyer', 'great-room', 'kitchen'],
+      confidence: 94,
+      status: 'verified',
+    },
+    {
+      id: 'proof_appliance_package',
+      claim: 'The kitchen appliance package is documented with scene-anchored media evidence.',
+      category: 'finish',
+      sceneIds: ['kitchen'],
+      confidence: 86,
+      status: 'verified',
+    },
+    {
+      id: 'proof_accessibility_review',
+      claim: 'The entry-to-living path is ready for accessibility review before final listing language is approved.',
+      category: 'accessibility',
+      sceneIds: ['foyer', 'great-room'],
+      confidence: 76,
+      status: 'needs-review',
+      note: 'Requires human verification for threshold, turning radius, and compliance language.',
+    },
+  ],
   scenes: [
     {
       id: 'foyer',

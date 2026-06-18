@@ -5,6 +5,7 @@ import { FloorplanNavigator } from './components/FloorplanNavigator'
 import { PanoramaViewer } from './components/PanoramaViewer'
 import { SaaSDashboard } from './components/SaaSDashboard'
 import { SpatialIntelligencePanel } from './components/SpatialIntelligencePanel'
+import { SpatialProofPanel } from './components/SpatialProofPanel'
 import { TourEditor } from './components/TourEditor'
 import { loadWorkspace, saveWorkspace, updateTourInWorkspace } from './lib/saasStore'
 
@@ -31,8 +32,8 @@ function App() {
           <h1>Launch a spatial-tour SaaS from the browser.</h1>
           <p>
             AxisTour now wraps the 360° editor in a competitive SaaS control plane: spatial minimaps, measurement intelligence,
-            guided buyer routes, conversion analytics, client review links, organization workspaces, plan limits, public publishing,
-            lead capture, and auditable operations.
+            guided buyer routes, conversion analytics, claim-level proof packets, buyer objection analysis, client review links,
+            organization workspaces, plan limits, public publishing, lead capture, and auditable operations.
           </p>
           <div className="hero-actions">
             <a href="#saas" className="primary-cta">Open SaaS console <ChevronRight size={18}/></a>
@@ -60,6 +61,8 @@ function App() {
 
       <SpatialIntelligencePanel workspace={workspace} setWorkspace={setWorkspace} tour={tour} />
 
+      <SpatialProofPanel tour={tour} />
+
       <section className="studio" id="studio">
         <div className="studio-stage">
           <div className="stage-topbar">
@@ -79,8 +82,8 @@ function App() {
         <Building2 />
         <div>
           <p className="eyebrow">Production path</p>
-          <h2>Next: wire the generated backend contract into Supabase/Neon Postgres, R2/S3 object storage, Clerk/Auth.js, Stripe billing, and background image processing.</h2>
-          <p>This sprint now gives AxisTour a backend cutover cockpit: API contracts, table manifest, object-storage queue, CRM webhook handoff, Stripe price metadata, and dry-run sync audit events.</p>
+          <h2>Next: wire the generated backend contract into Supabase/Neon Postgres, R2/S3 object storage, Clerk/Auth.js, Stripe billing, signed proof-packet exports, and background image processing.</h2>
+          <p>This sprint now gives AxisTour a backend cutover cockpit: API contracts, table manifest, object-storage queue, CRM webhook handoff, Stripe price metadata, claim verification ledgers, and dry-run sync audit events.</p>
         </div>
       </section>
     </main>
