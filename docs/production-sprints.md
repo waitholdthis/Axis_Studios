@@ -67,6 +67,19 @@ Shipped:
 Why it matters:
 Most spatial-tour competitors sell prettier walkthroughs. AxisTour can sell trust: every important promise is attached to evidence, risk, and a packet a buyer, broker, builder, insurer, or enterprise client can review.
 
+## Sprint 6 — Axis Deal Twin
+
+Shipped:
+- Stakeholder simulations for buyers, agents, inspectors, lenders, builders, and investors.
+- A deterministic close-probability model that combines proof trust, measurement coverage, route maturity, scene evidence, and scan quality.
+- Offer-path recommendations for proof-premium, balanced-close, risk-adjusted, and investor-upside negotiations.
+- Friction radar that identifies deal-room weak points before the tour is used in sales, lending, inspection, or procurement.
+- Scene evidence maps that reveal which rooms actually carry the transaction and which need more proof.
+- A new Axis Deal Twin UI panel plus backend contracts for `deal_twin_scenarios`, `deal_twin_reports`, `/api/tours/:id/deal-twin`, and `/api/tours/:id/deal-twin/scenarios`.
+
+Why it matters:
+Most competitors digitize the property. AxisTour now digitizes the transaction. It can rehearse the buyer conversation, price defense, inspection risk, lender support, and next-best action before a real stakeholder ever touches the deal room.
+
 ## Competitive Product Standard
 
 AxisTour now needs every future sprint to preserve these minimum bars:

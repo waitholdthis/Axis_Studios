@@ -55,6 +55,40 @@ export const demoTour: Tour = {
       note: 'Requires human verification for threshold, turning radius, and compliance language.',
     },
   ],
+  dealTwinScenarios: [
+    {
+      id: 'deal_buyer_family',
+      stakeholder: 'buyer',
+      motivation: 'Wants to know whether the public spaces feel connected enough to justify a premium showing.',
+      decisionWeight: 96,
+      targetSceneIds: ['foyer', 'great-room', 'kitchen'],
+      successSignal: 'Buyer can picture hosting, entry flow, and kitchen movement before visiting in person.',
+    },
+    {
+      id: 'deal_agent_price_defense',
+      stakeholder: 'agent',
+      motivation: 'Needs verified talking points that make the listing feel safer and more premium than competing tours.',
+      decisionWeight: 88,
+      targetSceneIds: ['foyer', 'great-room', 'kitchen'],
+      successSignal: 'Agent can defend price using proof claims instead of subjective listing adjectives.',
+    },
+    {
+      id: 'deal_lender_collateral',
+      stakeholder: 'lender',
+      motivation: 'Needs a compact collateral summary with measured area, high-confidence scan points, and unresolved risk isolated.',
+      decisionWeight: 70,
+      targetSceneIds: ['great-room', 'kitchen'],
+      successSignal: 'Lender sees measurable support without manually reviewing every panorama.',
+    },
+    {
+      id: 'deal_inspector_risk',
+      stakeholder: 'inspector',
+      motivation: 'Needs review-gated language separated from verified evidence before the transaction creates trust issues.',
+      decisionWeight: 74,
+      targetSceneIds: ['foyer', 'great-room'],
+      successSignal: 'Inspector receives targeted claims to validate instead of a generic tour link.',
+    },
+  ],
   scenes: [
     {
       id: 'foyer',

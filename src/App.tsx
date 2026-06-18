@@ -6,6 +6,7 @@ import { PanoramaViewer } from './components/PanoramaViewer'
 import { SaaSDashboard } from './components/SaaSDashboard'
 import { SpatialIntelligencePanel } from './components/SpatialIntelligencePanel'
 import { SpatialProofPanel } from './components/SpatialProofPanel'
+import { DealTwinPanel } from './components/DealTwinPanel'
 import { TourEditor } from './components/TourEditor'
 import { loadWorkspace, saveWorkspace, updateTourInWorkspace } from './lib/saasStore'
 
@@ -32,8 +33,8 @@ function App() {
           <h1>Launch a spatial-tour SaaS from the browser.</h1>
           <p>
             AxisTour now wraps the 360° editor in a competitive SaaS control plane: spatial minimaps, measurement intelligence,
-            guided buyer routes, conversion analytics, claim-level proof packets, buyer objection analysis, client review links,
-            organization workspaces, plan limits, public publishing, lead capture, and auditable operations.
+            guided buyer routes, conversion analytics, claim-level proof packets, buyer objection analysis, deal-room simulations,
+            client review links, organization workspaces, plan limits, public publishing, lead capture, and auditable operations.
           </p>
           <div className="hero-actions">
             <a href="#saas" className="primary-cta">Open SaaS console <ChevronRight size={18}/></a>
@@ -62,6 +63,8 @@ function App() {
       <SpatialIntelligencePanel workspace={workspace} setWorkspace={setWorkspace} tour={tour} />
 
       <SpatialProofPanel tour={tour} />
+
+      <DealTwinPanel tour={tour} />
 
       <section className="studio" id="studio">
         <div className="studio-stage">

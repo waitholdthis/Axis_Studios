@@ -169,6 +169,18 @@ export function buildBackendEndpoints(config: BackendConfig, workspace: SaaSWork
       purpose: 'Create or update verified, reviewer-gated, or unsupported claims tied to scan evidence.',
       payload: 'ProofClaimUpsertRequest',
     },
+    {
+      method: 'GET',
+      path: `/api/tours/${activeTourId}/deal-twin`,
+      purpose: 'Return stakeholder simulations, close probability, friction radar, offer paths, and scene evidence for deal-room strategy.',
+      payload: 'DealTwinReport',
+    },
+    {
+      method: 'POST',
+      path: `/api/tours/${activeTourId}/deal-twin/scenarios`,
+      purpose: 'Create or tune stakeholder simulations for buyers, agents, inspectors, lenders, builders, and investors.',
+      payload: 'DealTwinScenarioUpsertRequest',
+    },
   ]
 }
 
@@ -223,6 +235,8 @@ export function createBackendManifest(workspace: SaaSWorkspace, config: BackendC
       guided_routes: ['id', 'tour_id', 'name', 'intent', 'scene_ids', 'created_at', 'updated_at'],
       proof_claims: ['id', 'tour_id', 'claim', 'category', 'scene_ids', 'confidence', 'status', 'note', 'created_at', 'updated_at'],
       proof_packets: ['id', 'tour_id', 'trust_score', 'audit_fingerprint', 'buyer_objections', 'generated_at'],
+      deal_twin_scenarios: ['id', 'tour_id', 'stakeholder', 'motivation', 'decision_weight', 'target_scene_ids', 'success_signal', 'created_at', 'updated_at'],
+      deal_twin_reports: ['id', 'tour_id', 'close_probability', 'primary_stakeholder', 'friction_radar', 'offer_paths', 'scene_evidence', 'generated_at'],
       assets: ['id', 'tour_id', 'name', 'type', 'url', 'size_mb', 'created_at'],
       leads: ['id', 'tour_id', 'name', 'email', 'phone', 'message', 'source', 'status', 'created_at'],
       review_comments: ['id', 'tour_id', 'scene_id', 'author', 'body', 'status', 'x', 'y', 'created_at'],

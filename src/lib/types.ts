@@ -43,6 +43,15 @@ export type ProofClaim = {
   note?: string
 }
 
+export type DealTwinScenario = {
+  id: string
+  stakeholder: 'buyer' | 'investor' | 'agent' | 'inspector' | 'lender' | 'builder'
+  motivation: string
+  decisionWeight: number
+  targetSceneIds: string[]
+  successSignal: string
+}
+
 export type Tour = {
   id: string
   title: string
@@ -56,5 +65,6 @@ export type Tour = {
   totalSquareFeet?: number
   guidedRoutes?: GuidedRoute[]
   proofClaims?: ProofClaim[]
+  dealTwinScenarios?: DealTwinScenario[]
   scenes: Scene[]
 }
