@@ -64,6 +64,16 @@ export type ShareLink = {
   createdAt: string
 }
 
+export type TourAnalyticsEvent = {
+  id: string
+  tourId: string
+  sceneId?: string
+  type: 'view' | 'scene_entered' | 'lead_opened' | 'lead_submitted' | 'share_opened'
+  visitorRole: 'buyer' | 'agent' | 'owner' | 'builder' | 'reviewer'
+  dwellSeconds: number
+  createdAt: string
+}
+
 export type AuditEvent = {
   id: string
   actor: string
@@ -81,5 +91,6 @@ export type SaaSWorkspace = {
   leads: Lead[]
   reviewComments: ReviewComment[]
   shareLinks: ShareLink[]
+  analyticsEvents: TourAnalyticsEvent[]
   auditLog: AuditEvent[]
 }

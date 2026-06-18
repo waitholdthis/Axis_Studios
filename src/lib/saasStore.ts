@@ -1,7 +1,7 @@
 import { demoTour } from './demoTour'
 import { makeId, validateTour } from './tourStore'
 import type { Tour } from './types'
-import type { Asset, AuditEvent, Lead, ReviewComment, SaaSWorkspace, ShareLink } from './saasTypes'
+import type { Asset, AuditEvent, Lead, ReviewComment, SaaSWorkspace, ShareLink, TourAnalyticsEvent } from './saasTypes'
 
 export const WORKSPACE_KEY = 'axistour.saas.workspace.v1'
 
@@ -71,6 +71,13 @@ export function createDefaultWorkspace(): SaaSWorkspace {
         status: 'new',
       },
     ],
+    analyticsEvents: [
+      { id: 'evt_demo_view', tourId: demoTour.id, sceneId: 'foyer', type: 'view', visitorRole: 'buyer', dwellSeconds: 42, createdAt: now() },
+      { id: 'evt_demo_great_room', tourId: demoTour.id, sceneId: 'great-room', type: 'scene_entered', visitorRole: 'buyer', dwellSeconds: 86, createdAt: now() },
+      { id: 'evt_demo_kitchen', tourId: demoTour.id, sceneId: 'kitchen', type: 'scene_entered', visitorRole: 'agent', dwellSeconds: 78, createdAt: now() },
+      { id: 'evt_demo_lead_open', tourId: demoTour.id, sceneId: 'great-room', type: 'lead_opened', visitorRole: 'buyer', dwellSeconds: 94, createdAt: now() },
+      { id: 'evt_demo_share', tourId: demoTour.id, type: 'share_opened', visitorRole: 'reviewer', dwellSeconds: 120, createdAt: now() },
+    ],
     reviewComments: [
       {
         id: 'review_foyer_copy',
@@ -114,6 +121,7 @@ export function validateWorkspace(value: unknown): SaaSWorkspace {
     leads: workspace.leads ?? [],
     reviewComments: workspace.reviewComments ?? [],
     shareLinks: workspace.shareLinks ?? [],
+    analyticsEvents: workspace.analyticsEvents ?? [],
     auditLog: workspace.auditLog ?? [],
   }
 }
@@ -215,6 +223,15 @@ export function createShareLink(workspace: SaaSWorkspace, tourId: string, permis
 export function addReviewComment(workspace: SaaSWorkspace, comment: Omit<ReviewComment, 'id' | 'createdAt' | 'status'>): SaaSWorkspace {
   const nextComment: ReviewComment = { ...comment, id: makeId('review'), status: 'open', createdAt: now() }
   return withAudit({ ...workspace, reviewComments: [nextComment, ...workspace.reviewComments] }, 'review.comment_added', `${comment.author} commented on a scan point.`)
+}
+
+export function recordAnalyticsEvent(workspace: SaaSWorkspace, event: Omit<TourAnalyticsEvent, 'id' | 'createdAt'>): SaaSWorkspace {
+  const nextEvent: TourAnalyticsEvent = { ...event, id: makeId('evt'), createdAt: now() }
+  return withAudit(
+    { ...workspace, analyticsEvents: [nextEvent, ...workspace.analyticsEvents].slice(0, 400) },
+    'analytics.event_recorded',
+    `${event.type} tracked for ${event.tourId}.`,
+  )
 }
 
 export function resolveReviewComment(workspace: SaaSWorkspace, commentId: string): SaaSWorkspace {

@@ -4,6 +4,7 @@ import './App.css'
 import { FloorplanNavigator } from './components/FloorplanNavigator'
 import { PanoramaViewer } from './components/PanoramaViewer'
 import { SaaSDashboard } from './components/SaaSDashboard'
+import { SpatialIntelligencePanel } from './components/SpatialIntelligencePanel'
 import { TourEditor } from './components/TourEditor'
 import { loadWorkspace, saveWorkspace, updateTourInWorkspace } from './lib/saasStore'
 
@@ -29,8 +30,9 @@ function App() {
           <div className="brand-mark"><Cuboid /> AxisTour <span>SaaS Studio</span></div>
           <h1>Launch a spatial-tour SaaS from the browser.</h1>
           <p>
-            AxisTour now wraps the 360° editor in a competitive SaaS control plane: spatial minimaps, scene quality scoring,
-            client review links, organization workspaces, plan limits, public publishing, lead capture, and auditable operations.
+            AxisTour now wraps the 360° editor in a competitive SaaS control plane: spatial minimaps, measurement intelligence,
+            guided buyer routes, conversion analytics, client review links, organization workspaces, plan limits, public publishing,
+            lead capture, and auditable operations.
           </p>
           <div className="hero-actions">
             <a href="#saas" className="primary-cta">Open SaaS console <ChevronRight size={18}/></a>
@@ -55,6 +57,8 @@ function App() {
       </section>
 
       <SaaSDashboard workspace={workspace} setWorkspace={setWorkspace} />
+
+      <SpatialIntelligencePanel workspace={workspace} setWorkspace={setWorkspace} tour={tour} />
 
       <section className="studio" id="studio">
         <div className="studio-stage">

@@ -31,9 +31,12 @@ export function validateTour(value: unknown): Tour {
   if (!tour.title || !Array.isArray(tour.scenes) || tour.scenes.length === 0) throw new Error('Tour requires title and scenes')
   const normalizedScenes = tour.scenes.map((scene, index) => ({
     ...scene,
+    floor: scene.floor || 'Unassigned',
     floorplanX: Number.isFinite(scene.floorplanX) ? clampFloorplanPoint(scene.floorplanX) : clampFloorplanPoint(18 + index * 22),
     floorplanY: Number.isFinite(scene.floorplanY) ? clampFloorplanPoint(scene.floorplanY) : clampFloorplanPoint(62 - index * 8),
     scanQuality: scene.scanQuality ?? 'good',
+    squareFeet: Number.isFinite(scene.squareFeet) ? Math.max(0, Number(scene.squareFeet)) : undefined,
+    ceilingHeightFt: Number.isFinite(scene.ceilingHeightFt) ? Math.max(0, Number(scene.ceilingHeightFt)) : undefined,
     hotspots: scene.hotspots ?? [],
   }))
   const ids = new Set<string>()

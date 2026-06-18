@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addAsset, captureLead, createDefaultWorkspace, createTour, publishTour, storageUsedMb, updateLeadStatus, validateWorkspace } from './saasStore'
+import { addAsset, captureLead, createDefaultWorkspace, createTour, publishTour, recordAnalyticsEvent, storageUsedMb, updateLeadStatus, validateWorkspace } from './saasStore'
 
 describe('saas workspace store', () => {
   it('validates the seeded organization workspace', () => {
@@ -36,5 +36,19 @@ describe('saas workspace store', () => {
     const contacted = updateLeadStatus(withLead, withLead.leads[0].id, 'contacted')
     expect(contacted.leads[0].status).toBe('contacted')
     expect(contacted.auditLog[0].action).toBe('lead.status_updated')
+  })
+
+  it('records analytics events with an audit trail and bounded event history', () => {
+    const base = createDefaultWorkspace()
+    const next = recordAnalyticsEvent(base, {
+      tourId: base.activeTourId,
+      sceneId: base.tours[0].scenes[0].id,
+      type: 'scene_entered',
+      visitorRole: 'buyer',
+      dwellSeconds: 91,
+    })
+
+    expect(next.analyticsEvents[0]).toMatchObject({ type: 'scene_entered', dwellSeconds: 91 })
+    expect(next.auditLog[0].action).toBe('analytics.event_recorded')
   })
 })

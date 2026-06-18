@@ -8,6 +8,9 @@ A legally distinct 3D/360 virtual-tour platform prototype built with Vite, React
 - Three.js equirectangular 360 panorama sphere.
 - Spatial minimap/floorplan scan-point navigation.
 - Spatial readiness scoring for tour depth, map coverage, lead capture, and navigation graph quality.
+- Measurement intelligence with room-level square footage, ceiling-height metadata, coverage scoring, and total property area.
+- Guided routes for buyer, leasing, operations, and accessibility narratives.
+- Conversion analytics and buyer-intent scoring from views, dwell time, scene entries, share opens, and lead actions.
 - Clickable navigation, info, media, and lead hotspots.
 - Browser-based studio/editor.
 - Add scenes, hotspots, floorplan coordinates, and scan-quality metadata.
@@ -18,6 +21,7 @@ A legally distinct 3D/360 virtual-tour platform prototype built with Vite, React
 - Draft/published state and iframe embed generator.
 - Seeded demo residence with three connected scan points.
 - Backend cutover cockpit with API contracts, Postgres/storage schema manifest, CRM webhook fields, and Stripe price metadata.
+- Enterprise export contracts for guided routes, analytics events, measurement fields, and spatial intelligence reports.
 
 ## Commands
 
@@ -35,7 +39,7 @@ npm run preview
 2. Cloud object storage for 360 images/video/assets.
 3. Server-side tour publishing and public slugs.
 4. Floorplan upload + minimap calibration.
-5. Lead capture integration.
+5. Backend analytics dashboards, attribution reports, and CRM automations.
 6. Mobile capture flow for Ricoh/Insta360/iPhone panoramas.
 7. GLB/Gaussian-splat/mesh mode for dollhouse-style digital twins.
 

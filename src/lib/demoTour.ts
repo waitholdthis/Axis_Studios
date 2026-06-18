@@ -13,6 +13,12 @@ export const demoTour: Tour = {
   status: 'published',
   brandColor: '#7cf7ff',
   createdAt: new Date('2026-01-01T00:00:00Z').toISOString(),
+  propertyType: 'residential',
+  totalSquareFeet: 2380,
+  guidedRoutes: [
+    { id: 'route_buyer_highlights', name: 'Buyer highlight path', intent: 'buyer', sceneIds: ['foyer', 'great-room', 'kitchen'] },
+    { id: 'route_accessibility_entry', name: 'Entry-to-living accessibility route', intent: 'accessibility', sceneIds: ['foyer', 'great-room'] },
+  ],
   scenes: [
     {
       id: 'foyer',
@@ -24,6 +30,8 @@ export const demoTour: Tour = {
       floorplanX: 18,
       floorplanY: 68,
       scanQuality: 'excellent',
+      squareFeet: 180,
+      ceilingHeightFt: 10,
       hotspots: [
         { id: 'h1', type: 'navigation', label: 'Enter Great Room', yaw: 22, pitch: -6, targetSceneId: 'great-room' },
         { id: 'h2', type: 'info', label: 'Smart access wall', yaw: -52, pitch: 5, body: 'Add agent notes, inspection details, listing copy, or client-facing proof here.' },
@@ -39,6 +47,8 @@ export const demoTour: Tour = {
       floorplanX: 46,
       floorplanY: 48,
       scanQuality: 'excellent',
+      squareFeet: 720,
+      ceilingHeightFt: 12,
       hotspots: [
         { id: 'h3', type: 'navigation', label: 'Back to Foyer', yaw: -145, pitch: -5, targetSceneId: 'foyer' },
         { id: 'h4', type: 'navigation', label: 'Kitchen', yaw: 74, pitch: -3, targetSceneId: 'kitchen' },
@@ -55,6 +65,8 @@ export const demoTour: Tour = {
       floorplanX: 76,
       floorplanY: 42,
       scanQuality: 'good',
+      squareFeet: 410,
+      ceilingHeightFt: 10,
       hotspots: [
         { id: 'h6', type: 'navigation', label: 'Great Room', yaw: -92, pitch: -5, targetSceneId: 'great-room' },
         { id: 'h7', type: 'media', label: 'Appliance Package', yaw: 44, pitch: 10, body: 'Attach walkthrough videos, seller docs, spec sheets, or warranty files.', url: 'https://example.com/spec-sheet' },

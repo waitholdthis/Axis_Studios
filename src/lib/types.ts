@@ -21,7 +21,16 @@ export type Scene = {
   floorplanX: number
   floorplanY: number
   scanQuality?: 'excellent' | 'good' | 'needs-attention'
+  squareFeet?: number
+  ceilingHeightFt?: number
   hotspots: Hotspot[]
+}
+
+export type GuidedRoute = {
+  id: string
+  name: string
+  sceneIds: string[]
+  intent: 'buyer' | 'leasing' | 'operations' | 'accessibility'
 }
 
 export type Tour = {
@@ -33,5 +42,8 @@ export type Tour = {
   brandColor: string
   createdAt: string
   shareToken?: string
+  propertyType?: 'residential' | 'commercial' | 'hospitality' | 'construction' | 'venue'
+  totalSquareFeet?: number
+  guidedRoutes?: GuidedRoute[]
   scenes: Scene[]
 }

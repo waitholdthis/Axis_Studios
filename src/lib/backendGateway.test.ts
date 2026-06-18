@@ -26,7 +26,7 @@ describe('backend gateway contracts', () => {
     })
   })
 
-  it('generates API endpoints for workspace persistence, assets, publishing, leads, and billing', () => {
+  it('generates API endpoints for workspace persistence, assets, publishing, leads, billing, analytics, and intelligence', () => {
     const workspace = createDefaultWorkspace()
     const endpoints = buildBackendEndpoints({ ...defaultBackendConfig, mode: 'api-ready', apiBaseUrl: 'https://api.axis.test' }, workspace)
     expect(endpoints.map((endpoint) => endpoint.path)).toEqual([
@@ -36,6 +36,8 @@ describe('backend gateway contracts', () => {
       `/api/tours/${workspace.activeTourId}/publish`,
       '/api/leads',
       '/api/billing/checkout',
+      '/api/analytics/events',
+      `/api/tours/${workspace.activeTourId}/intelligence`,
     ])
   })
 
@@ -84,8 +86,10 @@ describe('backend gateway contracts', () => {
     expect(manifest.tables).toHaveProperty('audit_events')
     expect(manifest.tables).toHaveProperty('review_comments')
     expect(manifest.tables).toHaveProperty('share_links')
+    expect(manifest.tables).toHaveProperty('guided_routes')
+    expect(manifest.tables).toHaveProperty('analytics_events')
     expect(manifest.storage.assetCount).toBe(workspace.assets.length)
     expect(manifest.webhooks.leadEvents).toHaveLength(workspace.leads.length)
-    expect(manifest.endpoints).toHaveLength(6)
+    expect(manifest.endpoints).toHaveLength(8)
   })
 })

@@ -40,6 +40,20 @@ Next backend implementation targets:
 - CRM/email webhook delivery for leads and review events.
 - Public slug router and review-token router.
 
+## Sprint 4 — Spatial Intelligence and Market Differentiation
+
+Shipped:
+- Room-level measurement metadata for square footage and ceiling height.
+- Measurement coverage scoring that compares measured room totals against listed property area.
+- Guided route contracts for buyer, leasing, operations, and accessibility walkthroughs.
+- Conversion analytics events for views, scene entries, share opens, lead opens, and lead submissions.
+- Buyer-intent scoring and hottest-scene detection.
+- A new spatial intelligence UI panel that packages measurements, guided routes, analytics, and competitive readiness in one market-facing cockpit.
+- Backend manifest expansion for `guided_routes`, `analytics_events`, measurement fields, and `/api/tours/:id/intelligence`.
+
+Why it matters:
+Top spatial platforms do more than display 360 imagery. They make tours operational: measurable, narratable, attributable, and exportable for enterprise buyers.
+
 ## Competitive Product Standard
 
 AxisTour now needs every future sprint to preserve these minimum bars:
