@@ -1,4 +1,5 @@
 import { demoTour } from './demoTour'
+import { clampFloorplanPoint } from './spatialQuality'
 import type { Hotspot, HotspotType, Scene, Tour } from './types'
 
 const STORAGE_KEY = 'axistour.workspace.v1'
@@ -16,7 +17,7 @@ export function loadTour(): Tour {
 }
 
 export function saveTour(tour: Tour) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tour, null, 2))
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(validateTour(tour), null, 2))
 }
 
 export function resetTour() {
@@ -28,20 +29,27 @@ export function validateTour(value: unknown): Tour {
   if (!value || typeof value !== 'object') throw new Error('Tour must be an object')
   const tour = value as Tour
   if (!tour.title || !Array.isArray(tour.scenes) || tour.scenes.length === 0) throw new Error('Tour requires title and scenes')
+  const normalizedScenes = tour.scenes.map((scene, index) => ({
+    ...scene,
+    floorplanX: Number.isFinite(scene.floorplanX) ? clampFloorplanPoint(scene.floorplanX) : clampFloorplanPoint(18 + index * 22),
+    floorplanY: Number.isFinite(scene.floorplanY) ? clampFloorplanPoint(scene.floorplanY) : clampFloorplanPoint(62 - index * 8),
+    scanQuality: scene.scanQuality ?? 'good',
+    hotspots: scene.hotspots ?? [],
+  }))
   const ids = new Set<string>()
-  tour.scenes.forEach((scene) => {
+  normalizedScenes.forEach((scene) => {
     if (!scene.id || !scene.name || !scene.panoramaUrl) throw new Error('Scene missing id, name, or panoramaUrl')
     if (ids.has(scene.id)) throw new Error(`Duplicate scene id ${scene.id}`)
     ids.add(scene.id)
   })
-  tour.scenes.forEach((scene) => {
+  normalizedScenes.forEach((scene) => {
     scene.hotspots?.forEach((hotspot) => {
       if (hotspot.type === 'navigation' && hotspot.targetSceneId && !ids.has(hotspot.targetSceneId)) {
         throw new Error(`Hotspot ${hotspot.id} points to missing scene ${hotspot.targetSceneId}`)
       }
     })
   })
-  return { ...tour, status: tour.status ?? 'draft', brandColor: tour.brandColor ?? '#7cf7ff' }
+  return { ...tour, status: tour.status ?? 'draft', brandColor: tour.brandColor ?? '#7cf7ff', scenes: normalizedScenes }
 }
 
 export function addScene(tour: Tour, name = 'New Scan Point'): Tour {
@@ -53,6 +61,9 @@ export function addScene(tour: Tour, name = 'New Scan Point'): Tour {
     panoramaUrl: demoTour.scenes[tour.scenes.length % demoTour.scenes.length].panoramaUrl,
     initialYaw: 0,
     initialPitch: 0,
+    floorplanX: clampFloorplanPoint(18 + tour.scenes.length * 14),
+    floorplanY: clampFloorplanPoint(72 - tour.scenes.length * 8),
+    scanQuality: 'good',
     hotspots: [],
   }
   return { ...tour, scenes: [...tour.scenes, scene] }
@@ -71,6 +82,22 @@ export function updateHotspot(tour: Tour, sceneId: string, hotspotId: string, pa
     ...tour,
     scenes: tour.scenes.map((scene) =>
       scene.id === sceneId ? { ...scene, hotspots: scene.hotspots.map((h) => (h.id === hotspotId ? { ...h, ...patch } : h)) } : scene,
+    ),
+  }
+}
+
+export function updateScene(tour: Tour, sceneId: string, patch: Partial<Scene>): Tour {
+  return {
+    ...tour,
+    scenes: tour.scenes.map((scene) =>
+      scene.id === sceneId
+        ? {
+            ...scene,
+            ...patch,
+            floorplanX: patch.floorplanX === undefined ? scene.floorplanX : clampFloorplanPoint(patch.floorplanX),
+            floorplanY: patch.floorplanY === undefined ? scene.floorplanY : clampFloorplanPoint(patch.floorplanY),
+          }
+        : scene,
     ),
   }
 }

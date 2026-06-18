@@ -6,14 +6,18 @@ A legally distinct 3D/360 virtual-tour platform prototype built with Vite, React
 
 - Cinematic landing page and live tour viewer.
 - Three.js equirectangular 360 panorama sphere.
+- Spatial minimap/floorplan scan-point navigation.
+- Spatial readiness scoring for tour depth, map coverage, lead capture, and navigation graph quality.
 - Clickable navigation, info, media, and lead hotspots.
 - Browser-based studio/editor.
-- Add scenes and hotspots.
+- Add scenes, hotspots, floorplan coordinates, and scan-quality metadata.
+- Client review links and scene-anchored approval comments.
 - Edit scene metadata, panorama URL/data URI, hotspot labels, yaw, pitch, body, and navigation target.
 - Auto-save to `localStorage`.
 - Export/import portable JSON tour packages.
 - Draft/published state and iframe embed generator.
 - Seeded demo residence with three connected scan points.
+- Backend cutover cockpit with API contracts, Postgres/storage schema manifest, CRM webhook fields, and Stripe price metadata.
 
 ## Commands
 

@@ -18,6 +18,9 @@ export type Scene = {
   panoramaUrl: string
   initialYaw: number
   initialPitch: number
+  floorplanX: number
+  floorplanY: number
+  scanQuality?: 'excellent' | 'good' | 'needs-attention'
   hotspots: Hotspot[]
 }
 
@@ -29,5 +32,6 @@ export type Tour = {
   status: 'draft' | 'published'
   brandColor: string
   createdAt: string
+  shareToken?: string
   scenes: Scene[]
 }

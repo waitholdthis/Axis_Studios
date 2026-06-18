@@ -194,10 +194,12 @@ export function createBackendManifest(workspace: SaaSWorkspace, config: BackendC
       organizations: ['id', 'name', 'plan', 'seats_limit', 'storage_limit_mb', 'monthly_tour_limit', 'custom_domain'],
       organization_members: ['organization_id', 'account_id', 'role'],
       tours: ['id', 'organization_id', 'title', 'slug', 'client', 'status', 'brand_color', 'created_at', 'updated_at'],
-      scenes: ['id', 'tour_id', 'name', 'floor', 'panorama_url', 'initial_yaw', 'initial_pitch', 'sort_order'],
+      scenes: ['id', 'tour_id', 'name', 'floor', 'panorama_url', 'initial_yaw', 'initial_pitch', 'floorplan_x', 'floorplan_y', 'scan_quality', 'sort_order'],
       hotspots: ['id', 'scene_id', 'type', 'label', 'yaw', 'pitch', 'target_scene_id', 'body'],
       assets: ['id', 'tour_id', 'name', 'type', 'url', 'size_mb', 'created_at'],
       leads: ['id', 'tour_id', 'name', 'email', 'phone', 'message', 'source', 'status', 'created_at'],
+      review_comments: ['id', 'tour_id', 'scene_id', 'author', 'body', 'status', 'x', 'y', 'created_at'],
+      share_links: ['id', 'tour_id', 'token', 'permission', 'expires_at', 'created_at'],
       audit_events: ['id', 'organization_id', 'actor', 'action', 'detail', 'created_at'],
     },
     storage: {
@@ -236,6 +238,8 @@ function backendWarnings(workspace: SaaSWorkspace, config: BackendConfig): strin
   if (!config.crmWebhookUrl) warnings.push('CRM/email webhook URL is missing; leads will stay queued.')
   if (!config.stripePriceId) warnings.push('Stripe price ID is missing; billing checkout is not production-ready.')
   if (workspace.assets.some((asset) => asset.url.startsWith('data:'))) warnings.push('Some assets are still data URLs and must be migrated to object storage.')
+  if (workspace.reviewComments.some((comment) => comment.status === 'open')) warnings.push('Open client review comments remain before final handoff.')
+  if (!workspace.shareLinks.length) warnings.push('Create at least one expiring review/share link before client delivery.')
   if (!workspace.organization.customDomain) warnings.push('Custom tour domain is not configured.')
   return warnings
 }

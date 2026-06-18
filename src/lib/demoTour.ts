@@ -21,6 +21,9 @@ export const demoTour: Tour = {
       panoramaUrl: svgPanorama('#13213f', '#253a70', '#7cf7ff', 'Glass Foyer'),
       initialYaw: 0,
       initialPitch: 0,
+      floorplanX: 18,
+      floorplanY: 68,
+      scanQuality: 'excellent',
       hotspots: [
         { id: 'h1', type: 'navigation', label: 'Enter Great Room', yaw: 22, pitch: -6, targetSceneId: 'great-room' },
         { id: 'h2', type: 'info', label: 'Smart access wall', yaw: -52, pitch: 5, body: 'Add agent notes, inspection details, listing copy, or client-facing proof here.' },
@@ -33,6 +36,9 @@ export const demoTour: Tour = {
       panoramaUrl: svgPanorama('#19142f', '#46306f', '#ff7ad9', 'Great Room'),
       initialYaw: 15,
       initialPitch: 0,
+      floorplanX: 46,
+      floorplanY: 48,
+      scanQuality: 'excellent',
       hotspots: [
         { id: 'h3', type: 'navigation', label: 'Back to Foyer', yaw: -145, pitch: -5, targetSceneId: 'foyer' },
         { id: 'h4', type: 'navigation', label: 'Kitchen', yaw: 74, pitch: -3, targetSceneId: 'kitchen' },
@@ -46,6 +52,9 @@ export const demoTour: Tour = {
       panoramaUrl: svgPanorama('#10241e', '#1f5f57', '#b6ff6a', 'Chef Kitchen'),
       initialYaw: -10,
       initialPitch: 0,
+      floorplanX: 76,
+      floorplanY: 42,
+      scanQuality: 'good',
       hotspots: [
         { id: 'h6', type: 'navigation', label: 'Great Room', yaw: -92, pitch: -5, targetSceneId: 'great-room' },
         { id: 'h7', type: 'media', label: 'Appliance Package', yaw: 44, pitch: 10, body: 'Attach walkthrough videos, seller docs, spec sheets, or warranty files.', url: 'https://example.com/spec-sheet' },

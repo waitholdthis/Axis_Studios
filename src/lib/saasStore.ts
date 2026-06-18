@@ -1,7 +1,7 @@
 import { demoTour } from './demoTour'
 import { makeId, validateTour } from './tourStore'
 import type { Tour } from './types'
-import type { Asset, AuditEvent, Lead, SaaSWorkspace } from './saasTypes'
+import type { Asset, AuditEvent, Lead, ReviewComment, SaaSWorkspace, ShareLink } from './saasTypes'
 
 export const WORKSPACE_KEY = 'axistour.saas.workspace.v1'
 
@@ -71,6 +71,29 @@ export function createDefaultWorkspace(): SaaSWorkspace {
         status: 'new',
       },
     ],
+    reviewComments: [
+      {
+        id: 'review_foyer_copy',
+        tourId: demoTour.id,
+        sceneId: demoTour.scenes[0].id,
+        author: 'Client Reviewer',
+        body: 'Confirm the smart access wall copy before launch.',
+        status: 'open',
+        x: 30,
+        y: 34,
+        createdAt: now(),
+      },
+    ],
+    shareLinks: [
+      {
+        id: 'share_demo_review',
+        tourId: demoTour.id,
+        token: 'axis-demo-review',
+        permission: 'review',
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 14).toISOString(),
+        createdAt: now(),
+      },
+    ],
     auditLog: [
       { id: 'audit_seed_publish', actor: 'Parker — Owner', action: 'workspace.seeded', detail: 'SaaS demo workspace created locally.', createdAt: now() },
     ],
@@ -89,6 +112,8 @@ export function validateWorkspace(value: unknown): SaaSWorkspace {
     activeTourId,
     assets: workspace.assets ?? [],
     leads: workspace.leads ?? [],
+    reviewComments: workspace.reviewComments ?? [],
+    shareLinks: workspace.shareLinks ?? [],
     auditLog: workspace.auditLog ?? [],
   }
 }
@@ -171,6 +196,32 @@ export function updateLeadStatus(workspace: SaaSWorkspace, leadId: string, statu
     { ...workspace, leads: workspace.leads.map((lead) => (lead.id === leadId ? { ...lead, status } : lead)) },
     'lead.status_updated',
     `Lead ${leadId} moved to ${status}.`,
+  )
+}
+
+export function createShareLink(workspace: SaaSWorkspace, tourId: string, permission: ShareLink['permission'] = 'review'): SaaSWorkspace {
+  const token = `${tourId.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${makeId('share').replace('share_', '')}`
+  const link: ShareLink = {
+    id: makeId('share'),
+    tourId,
+    token,
+    permission,
+    expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 14).toISOString(),
+    createdAt: now(),
+  }
+  return withAudit({ ...workspace, shareLinks: [link, ...workspace.shareLinks] }, 'share.created', `${permission} link created for ${tourId}.`)
+}
+
+export function addReviewComment(workspace: SaaSWorkspace, comment: Omit<ReviewComment, 'id' | 'createdAt' | 'status'>): SaaSWorkspace {
+  const nextComment: ReviewComment = { ...comment, id: makeId('review'), status: 'open', createdAt: now() }
+  return withAudit({ ...workspace, reviewComments: [nextComment, ...workspace.reviewComments] }, 'review.comment_added', `${comment.author} commented on a scan point.`)
+}
+
+export function resolveReviewComment(workspace: SaaSWorkspace, commentId: string): SaaSWorkspace {
+  return withAudit(
+    { ...workspace, reviewComments: workspace.reviewComments.map((comment) => (comment.id === commentId ? { ...comment, status: 'resolved' } : comment)) },
+    'review.comment_resolved',
+    `Review comment ${commentId} resolved.`,
   )
 }
 

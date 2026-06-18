@@ -1,7 +1,7 @@
 import { Copy, Download, FileUp, Plus, RotateCcw, Save, Share2, Trash2 } from 'lucide-react'
 import type { ChangeEvent } from 'react'
 import type { HotspotType, Tour } from '../lib/types'
-import { addHotspot, addScene, compileEmbed, resetTour, saveTour, updateHotspot, validateTour } from '../lib/tourStore'
+import { addHotspot, addScene, compileEmbed, resetTour, saveTour, updateHotspot, updateScene, validateTour } from '../lib/tourStore'
 
 export function TourEditor({ tour, setTour, activeSceneId, setActiveSceneId }: { tour: Tour; setTour: (tour: Tour) => void; activeSceneId: string; setActiveSceneId: (id: string) => void }) {
   const active = tour.scenes.find((scene) => scene.id === activeSceneId) ?? tour.scenes[0]
@@ -51,9 +51,14 @@ export function TourEditor({ tour, setTour, activeSceneId, setActiveSceneId }: {
 
       <div className="panel-section">
         <p className="eyebrow">Scene inspector</p>
-        <label>Name<input value={active.name} onChange={(e) => updateTour({ ...tour, scenes: tour.scenes.map(s => s.id === active.id ? { ...s, name: e.target.value } : s) })}/></label>
-        <label>Floor<input value={active.floor} onChange={(e) => updateTour({ ...tour, scenes: tour.scenes.map(s => s.id === active.id ? { ...s, floor: e.target.value } : s) })}/></label>
-        <label>Panorama URL / data URI<textarea rows={3} value={active.panoramaUrl} onChange={(e) => updateTour({ ...tour, scenes: tour.scenes.map(s => s.id === active.id ? { ...s, panoramaUrl: e.target.value } : s) })}/></label>
+        <label>Name<input value={active.name} onChange={(e) => updateTour(updateScene(tour, active.id, { name: e.target.value }))}/></label>
+        <label>Floor<input value={active.floor} onChange={(e) => updateTour(updateScene(tour, active.id, { floor: e.target.value }))}/></label>
+        <label>Panorama URL / data URI<textarea rows={3} value={active.panoramaUrl} onChange={(e) => updateTour(updateScene(tour, active.id, { panoramaUrl: e.target.value }))}/></label>
+        <div className="field-grid">
+          <label>Floorplan X<input type="number" min="4" max="96" value={active.floorplanX} onChange={(e) => updateTour(updateScene(tour, active.id, { floorplanX: Number(e.target.value) }))}/></label>
+          <label>Floorplan Y<input type="number" min="4" max="96" value={active.floorplanY} onChange={(e) => updateTour(updateScene(tour, active.id, { floorplanY: Number(e.target.value) }))}/></label>
+        </div>
+        <label>Scan quality<select value={active.scanQuality ?? 'good'} onChange={(e) => updateTour(updateScene(tour, active.id, { scanQuality: e.target.value as typeof active.scanQuality }))}><option value="excellent">excellent</option><option value="good">good</option><option value="needs-attention">needs attention</option></select></label>
       </div>
 
       <div className="panel-section">

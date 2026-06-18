@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { BadgeCheck, Building2, Camera, ChevronRight, Cuboid, Database, Map, Sparkles } from 'lucide-react'
 import './App.css'
+import { FloorplanNavigator } from './components/FloorplanNavigator'
 import { PanoramaViewer } from './components/PanoramaViewer'
 import { SaaSDashboard } from './components/SaaSDashboard'
 import { TourEditor } from './components/TourEditor'
@@ -28,8 +29,8 @@ function App() {
           <div className="brand-mark"><Cuboid /> AxisTour <span>SaaS Studio</span></div>
           <h1>Launch a spatial-tour SaaS from the browser.</h1>
           <p>
-            AxisTour now wraps the 360° editor in a SaaS control plane: organization workspaces, plan limits, client tour vault,
-            cloud-style asset management, public publishing URLs, lead capture, and auditable operations.
+            AxisTour now wraps the 360° editor in a competitive SaaS control plane: spatial minimaps, scene quality scoring,
+            client review links, organization workspaces, plan limits, public publishing, lead capture, and auditable operations.
           </p>
           <div className="hero-actions">
             <a href="#saas" className="primary-cta">Open SaaS console <ChevronRight size={18}/></a>
@@ -61,6 +62,7 @@ function App() {
             <div><p className="eyebrow">Live public tour</p><h2>{tour.title}</h2></div>
             <div className="status-pill"><Sparkles size={16}/>{tour.status}</div>
           </div>
+          <FloorplanNavigator tour={tour} activeSceneId={activeScene.id} onSelectScene={setActiveSceneId} />
           <PanoramaViewer scene={activeScene} onNavigate={navigate} />
           <div className="filmstrip">
             {tour.scenes.map((scene) => <button key={scene.id} className={scene.id === activeScene.id ? 'active' : ''} onClick={() => setActiveSceneId(scene.id)}><img src={scene.panoramaUrl} alt=""/><span>{scene.name}</span></button>)}

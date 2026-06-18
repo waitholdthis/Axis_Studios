@@ -48,9 +48,11 @@ describe('backend gateway contracts', () => {
   })
 
   it('marks sync contract ready when required backend wiring exists and assets are object URLs', () => {
+    const baseWorkspace = createDefaultWorkspace()
     const workspace = {
-      ...createDefaultWorkspace(),
-      assets: createDefaultWorkspace().assets.map((asset) => ({ ...asset, url: `https://cdn.axis.test/${asset.name}` })),
+      ...baseWorkspace,
+      assets: baseWorkspace.assets.map((asset) => ({ ...asset, url: `https://cdn.axis.test/${asset.name}` })),
+      reviewComments: [],
     }
     const report = createBackendSyncReport(workspace, {
       mode: 'api-ready',
@@ -80,6 +82,8 @@ describe('backend gateway contracts', () => {
     expect(manifest.product).toBe('AxisTour SaaS')
     expect(manifest.tables).toHaveProperty('organizations')
     expect(manifest.tables).toHaveProperty('audit_events')
+    expect(manifest.tables).toHaveProperty('review_comments')
+    expect(manifest.tables).toHaveProperty('share_links')
     expect(manifest.storage.assetCount).toBe(workspace.assets.length)
     expect(manifest.webhooks.leadEvents).toHaveLength(workspace.leads.length)
     expect(manifest.endpoints).toHaveLength(6)

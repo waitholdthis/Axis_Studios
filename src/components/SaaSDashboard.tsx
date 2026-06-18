@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Building2, CheckCircle2, CloudUpload, Copy, Crown, DatabaseZap, Download, Globe2, Inbox, LockKeyhole, Plus, Rocket, ServerCog, ShieldCheck, Users, Webhook } from 'lucide-react'
+import { Building2, CheckCircle2, CloudUpload, Copy, Crown, DatabaseZap, Download, Globe2, Inbox, Link2, LockKeyhole, MessageSquarePlus, Plus, Rocket, ServerCog, ShieldCheck, Users, Webhook } from 'lucide-react'
 import type React from 'react'
 import type { ChangeEvent } from 'react'
 import type { BackendConfig, BackendSyncReport } from '../lib/backendGateway'
 import { createBackendSyncReport, defaultBackendConfig, downloadBackendManifest, loadBackendConfig, loadLastSyncReport, queueBackendSync, saveBackendConfig } from '../lib/backendGateway'
 import type { SaaSWorkspace } from '../lib/saasTypes'
-import { addAsset, captureLead, createTour, publishTour, setActiveTour, storageUsedMb, updateLeadStatus } from '../lib/saasStore'
+import { addAsset, addReviewComment, captureLead, createShareLink, createTour, publishTour, resolveReviewComment, setActiveTour, storageUsedMb, updateLeadStatus } from '../lib/saasStore'
 
 export function SaaSDashboard({ workspace, setWorkspace }: { workspace: SaaSWorkspace; setWorkspace: (workspace: SaaSWorkspace) => void }) {
   const [backendConfig, setBackendConfig] = useState<BackendConfig>(() => loadBackendConfig())
@@ -14,6 +14,8 @@ export function SaaSDashboard({ workspace, setWorkspace }: { workspace: SaaSWork
   const usedStorage = storageUsedMb(workspace)
   const publishedCount = workspace.tours.filter((tour) => tour.status === 'published').length
   const leadCount = workspace.leads.filter((lead) => lead.status === 'new').length
+  const openReviews = workspace.reviewComments.filter((comment) => comment.status === 'open').length
+  const activeShareLinks = workspace.shareLinks.filter((link) => link.tourId === activeTour.id)
   const publicUrl = `https://${workspace.organization.customDomain ?? 'your-domain.com'}/tour/${activeTour.slug}`
   const draftReport = createBackendSyncReport(workspace, backendConfig)
 
@@ -60,6 +62,19 @@ export function SaaSDashboard({ workspace, setWorkspace }: { workspace: SaaSWork
     setWorkspace(result.workspace)
   }
 
+  const createReviewLink = () => setWorkspace(createShareLink(workspace, activeTour.id, 'review'))
+  const addClientComment = () => {
+    const scene = activeTour.scenes[0]
+    setWorkspace(addReviewComment(workspace, {
+      tourId: activeTour.id,
+      sceneId: scene.id,
+      author: 'Client Reviewer',
+      body: `Review ${scene.name} hero label, floorplan position, and lead CTA before final approval.`,
+      x: 42,
+      y: 38,
+    }))
+  }
+
   return (
     <section className="saas-console" id="saas">
       <div className="console-header">
@@ -80,6 +95,7 @@ export function SaaSDashboard({ workspace, setWorkspace }: { workspace: SaaSWork
         <Metric icon={<CloudUpload />} label="Storage" value={`${usedStorage} MB`} detail={`${workspace.organization.storageLimitMb} MB limit`} />
         <Metric icon={<Users />} label="Seats" value={`${workspace.organization.seatsUsed}/${workspace.organization.seatsLimit}`} detail="owner/admin/editor roles" />
         <Metric icon={<Inbox />} label="New leads" value={String(leadCount)} detail="captured from public tours" />
+        <Metric icon={<MessageSquarePlus />} label="Open reviews" value={String(openReviews)} detail={`${workspace.shareLinks.length} client links`} />
       </div>
 
       <div className="saas-grid">
@@ -132,6 +148,24 @@ export function SaaSDashboard({ workspace, setWorkspace }: { workspace: SaaSWork
                   <option value="won">won</option>
                   <option value="archived">archived</option>
                 </select>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="saas-card review-card">
+          <div className="section-heading"><span>Client review room</span><button onClick={createReviewLink}><Link2 size={16}/>Create link</button></div>
+          <p className="backend-copy">Private review links and scene-anchored comments move AxisTour beyond a viewer into a client approval workflow.</p>
+          <div className="review-actions"><button onClick={addClientComment}><MessageSquarePlus size={16}/>Add sample comment</button><b>{openReviews} open</b></div>
+          <div className="share-list">
+            {activeShareLinks.slice(0, 3).map((link) => <div key={link.id}><strong>{link.permission}</strong><code>/review/{link.token}</code><small>expires {new Date(link.expiresAt).toLocaleDateString()}</small></div>)}
+            {!activeShareLinks.length && <span>No review links for this tour yet.</span>}
+          </div>
+          <div className="comment-list">
+            {workspace.reviewComments.filter((comment) => comment.tourId === activeTour.id).slice(0, 3).map((comment) => (
+              <div key={comment.id} className={comment.status === 'resolved' ? 'resolved' : ''}>
+                <strong>{comment.author}</strong><p>{comment.body}</p><small>{comment.sceneId} • {comment.x}%, {comment.y}%</small>
+                {comment.status === 'open' && <button onClick={() => setWorkspace(resolveReviewComment(workspace, comment.id))}>Resolve</button>}
               </div>
             ))}
           </div>

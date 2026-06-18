@@ -43,6 +43,27 @@ export type Lead = {
   status: 'new' | 'contacted' | 'won' | 'archived'
 }
 
+export type ReviewComment = {
+  id: string
+  tourId: string
+  sceneId: string
+  author: string
+  body: string
+  status: 'open' | 'resolved'
+  x: number
+  y: number
+  createdAt: string
+}
+
+export type ShareLink = {
+  id: string
+  tourId: string
+  token: string
+  permission: 'view' | 'review'
+  expiresAt: string
+  createdAt: string
+}
+
 export type AuditEvent = {
   id: string
   actor: string
@@ -58,5 +79,7 @@ export type SaaSWorkspace = {
   tours: Tour[]
   assets: Asset[]
   leads: Lead[]
+  reviewComments: ReviewComment[]
+  shareLinks: ShareLink[]
   auditLog: AuditEvent[]
 }
