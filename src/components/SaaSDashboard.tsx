@@ -1,16 +1,25 @@
-import { Building2, CheckCircle2, CloudUpload, Copy, Crown, Globe2, Inbox, LockKeyhole, Plus, Rocket, ServerCog, ShieldCheck, Users, Webhook } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Building2, CheckCircle2, CloudUpload, Copy, Crown, DatabaseZap, Download, Globe2, Inbox, LockKeyhole, Plus, Rocket, ServerCog, ShieldCheck, Users, Webhook } from 'lucide-react'
 import type React from 'react'
 import type { ChangeEvent } from 'react'
+import type { BackendConfig, BackendSyncReport } from '../lib/backendGateway'
+import { createBackendSyncReport, defaultBackendConfig, downloadBackendManifest, loadBackendConfig, loadLastSyncReport, queueBackendSync, saveBackendConfig } from '../lib/backendGateway'
 import type { SaaSWorkspace } from '../lib/saasTypes'
 import { addAsset, captureLead, createTour, publishTour, setActiveTour, storageUsedMb, updateLeadStatus } from '../lib/saasStore'
 
 export function SaaSDashboard({ workspace, setWorkspace }: { workspace: SaaSWorkspace; setWorkspace: (workspace: SaaSWorkspace) => void }) {
+  const [backendConfig, setBackendConfig] = useState<BackendConfig>(() => loadBackendConfig())
+  const [syncReport, setSyncReport] = useState<BackendSyncReport | null>(() => loadLastSyncReport())
   const activeTour = workspace.tours.find((tour) => tour.id === workspace.activeTourId) ?? workspace.tours[0]
   const usedStorage = storageUsedMb(workspace)
   const publishedCount = workspace.tours.filter((tour) => tour.status === 'published').length
   const leadCount = workspace.leads.filter((lead) => lead.status === 'new').length
   const publicUrl = `https://${workspace.organization.customDomain ?? 'your-domain.com'}/tour/${activeTour.slug}`
+  const draftReport = createBackendSyncReport(workspace, backendConfig)
 
+  useEffect(() => saveBackendConfig(backendConfig), [backendConfig])
+
+  const updateBackendConfig = (patch: Partial<BackendConfig>) => setBackendConfig((current) => ({ ...current, ...patch }))
   const copyPublicUrl = async () => navigator.clipboard?.writeText(publicUrl)
 
   const uploadAsset = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +52,12 @@ export function SaaSDashboard({ workspace, setWorkspace }: { workspace: SaaSWork
         message: `I viewed ${activeTour.title} and want pricing, showing details, or a private consultation.`,
       }),
     )
+  }
+
+  const dryRunBackendSync = () => {
+    const result = queueBackendSync(workspace, backendConfig)
+    setSyncReport(result.report)
+    setWorkspace(result.workspace)
   }
 
   return (
@@ -120,6 +135,43 @@ export function SaaSDashboard({ workspace, setWorkspace }: { workspace: SaaSWork
               </div>
             ))}
           </div>
+        </article>
+
+        <article className="saas-card backend-card">
+          <div className="section-heading"><span>Backend cutover cockpit</span><b className={`sync-status sync-status--${draftReport.status}`}>{draftReport.status}</b></div>
+          <p className="backend-copy">Turn the local SaaS workspace into a production backend contract: API routes, Postgres tables, object storage, CRM webhooks, and Stripe checkout metadata.</p>
+          <div className="backend-mode">
+            <button className={backendConfig.mode === 'local-first' ? 'active' : ''} onClick={() => updateBackendConfig({ mode: 'local-first' })}>Local-first</button>
+            <button className={backendConfig.mode === 'api-ready' ? 'active' : ''} onClick={() => updateBackendConfig({ mode: 'api-ready' })}>API-ready</button>
+          </div>
+          <div className="backend-fields">
+            <label>API base URL<input placeholder="https://api.axistour.com" value={backendConfig.apiBaseUrl} onChange={(e) => updateBackendConfig({ apiBaseUrl: e.target.value })}/></label>
+            <label>Organization ID<input value={backendConfig.organizationId} onChange={(e) => updateBackendConfig({ organizationId: e.target.value })}/></label>
+            <label>Object storage bucket<input value={backendConfig.storageBucket} onChange={(e) => updateBackendConfig({ storageBucket: e.target.value })}/></label>
+            <label>CRM webhook URL<input placeholder="https://hooks.crm.com/axis" value={backendConfig.crmWebhookUrl} onChange={(e) => updateBackendConfig({ crmWebhookUrl: e.target.value })}/></label>
+            <label>Stripe price ID<input placeholder="price_studio_monthly" value={backendConfig.stripePriceId} onChange={(e) => updateBackendConfig({ stripePriceId: e.target.value })}/></label>
+          </div>
+          <div className="button-row">
+            <button onClick={dryRunBackendSync}><DatabaseZap size={16}/>Generate sync contract</button>
+            <button onClick={() => downloadBackendManifest(workspace, backendConfig)}><Download size={16}/>Export backend manifest</button>
+            <button onClick={() => setBackendConfig(defaultBackendConfig)}>Reset</button>
+          </div>
+          <div className="sync-grid">
+            <span><strong>{draftReport.toursSynced}</strong> tours mapped</span>
+            <span><strong>{draftReport.assetsQueued}</strong> assets queued</span>
+            <span><strong>{draftReport.endpoints.length}</strong> API routes</span>
+            <span><strong>{Math.round(draftReport.workspaceBytes / 1024)}KB</strong> payload</span>
+          </div>
+          <div className="endpoint-list">
+            {draftReport.endpoints.map((endpoint) => (
+              <div key={`${endpoint.method}-${endpoint.path}`}><b>{endpoint.method}</b><code>{endpoint.path}</code><small>{endpoint.purpose}</small></div>
+            ))}
+          </div>
+          <div className="warning-stack">
+            {draftReport.warnings.map((warning) => <span key={warning}>{warning}</span>)}
+            {!draftReport.warnings.length && <span>Production contract is ready for server implementation.</span>}
+          </div>
+          {syncReport && <p className="last-sync">Last generated {new Date(syncReport.generatedAt).toLocaleString()} — {syncReport.status}</p>}
         </article>
 
         <article className="saas-card hardening-card">

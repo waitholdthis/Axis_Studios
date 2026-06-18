@@ -73,8 +73,8 @@ function App() {
         <Building2 />
         <div>
           <p className="eyebrow">Production path</p>
-          <h2>Next: replace local persistence with Supabase/Neon Postgres, R2/S3 object storage, Clerk/Auth.js, Stripe billing, and background image processing.</h2>
-          <p>This sprint turns the prototype into a SaaS-shaped product loop: workspace → tours → assets → publish → leads → audit.</p>
+          <h2>Next: wire the generated backend contract into Supabase/Neon Postgres, R2/S3 object storage, Clerk/Auth.js, Stripe billing, and background image processing.</h2>
+          <p>This sprint now gives AxisTour a backend cutover cockpit: API contracts, table manifest, object-storage queue, CRM webhook handoff, Stripe price metadata, and dry-run sync audit events.</p>
         </div>
       </section>
     </main>
