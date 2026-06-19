@@ -470,3 +470,65 @@ label { display: grid; gap: 3px; color: rgba(255,255,255,.68); font-size: .82rem
 .scene-evidence-grid small { color: rgba(255,255,255,.62); margin-top: 8px; line-height: 1.42; }
 @media (max-width: 1020px) { .deal-twin__hero, .deal-twin__grid { grid-template-columns: 1fr; } .deal-card--wide { grid-row: auto; } }
 @media (max-width: 720px) { .scenario-row, .scene-evidence-grid { grid-template-columns: 1fr; } }
+
+
+/* Signed due-diligence export sprint */
+.due-diligence {
+  margin: 26px 0;
+  border: 1px solid rgba(140,255,196,.18);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(140,255,196,.15), transparent 30rem),
+    radial-gradient(circle at 96% 14%, rgba(124,247,255,.13), transparent 34rem),
+    linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.028));
+  box-shadow: 0 34px 100px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.09);
+  border-radius: 34px;
+  padding: clamp(18px, 2.5vw, 34px);
+}
+.due-diligence__hero { display: grid; grid-template-columns: minmax(0, 1fr) 265px; gap: 18px; align-items: stretch; margin-bottom: 18px; }
+.due-diligence__hero p { max-width: 980px; }
+.export-readiness {
+  border: 1px solid rgba(140,255,196,.26);
+  background: rgba(140,255,196,.08);
+  border-radius: 28px;
+  padding: 18px;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+}
+.export-readiness svg { color: #8cffc4; }
+.export-readiness span, .export-readiness small { color: rgba(255,255,255,.62); text-transform: uppercase; letter-spacing: .1em; font-size: .72rem; font-weight: 900; }
+.export-readiness strong { font-size: 1.9rem; line-height: 1; letter-spacing: -.06em; color: white; text-transform: capitalize; }
+.export-readiness--blocked { border-color: rgba(255,155,189,.3); background: rgba(255,155,189,.08); }
+.export-readiness--review-required { border-color: rgba(255,211,110,.28); background: rgba(255,211,110,.08); }
+.due-diligence__grid { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.2fr); gap: 14px; }
+.export-card {
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(3,7,18,.48);
+  border-radius: 24px;
+  padding: 16px;
+}
+.export-card--wide { grid-row: span 2; }
+.export-card--signature code { display: block; word-break: break-all; color: #bffbff; border: 1px solid rgba(124,247,255,.14); background: rgba(124,247,255,.07); border-radius: 16px; padding: 12px; }
+.export-metrics { display: grid; gap: 8px; margin-top: 12px; }
+.export-metrics span, .recipient-strip span, .export-list p, .custody-list p {
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.04);
+  border-radius: 15px;
+  padding: 11px;
+  color: rgba(255,255,255,.64);
+  margin: 0;
+}
+.export-metrics strong { display: block; color: white; font-size: 1.05rem; }
+.attestation-list, .export-list, .custody-list { display: grid; gap: 9px; }
+.attestation { display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 10px; align-items: start; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.04); border-radius: 16px; padding: 12px; }
+.attestation b { justify-self: start; color: #031019; background: #8cffc4; border-radius: 999px; padding: 6px 9px; text-transform: uppercase; font-size: .68rem; letter-spacing: .08em; }
+.attestation--review b { background: #ffd36e; }
+.attestation--blocked b { background: #ff9bbd; }
+.attestation strong, .attestation small { display: block; }
+.attestation small { color: rgba(255,255,255,.62); margin-top: 5px; line-height: 1.45; }
+.custody-list p { display: flex; gap: 10px; align-items: flex-start; }
+.custody-list b { display: grid; place-items: center; min-width: 26px; height: 26px; border-radius: 999px; background: #8cffc4; color: #031019; }
+.recipient-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.recipient-strip span { color: #c9ffe3; }
+@media (max-width: 1020px) { .due-diligence__hero, .due-diligence__grid { grid-template-columns: 1fr; } .export-card--wide { grid-row: auto; } }
+@media (max-width: 720px) { .attestation { grid-template-columns: 1fr; } }

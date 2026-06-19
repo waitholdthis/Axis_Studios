@@ -42,6 +42,8 @@ describe('backend gateway contracts', () => {
       `/api/tours/${workspace.activeTourId}/proof-claims`,
       `/api/tours/${workspace.activeTourId}/deal-twin`,
       `/api/tours/${workspace.activeTourId}/deal-twin/scenarios`,
+      `/api/tours/${workspace.activeTourId}/due-diligence-export`,
+      `/api/tours/${workspace.activeTourId}/due-diligence-export/sign`,
     ])
   })
 
@@ -96,8 +98,9 @@ describe('backend gateway contracts', () => {
     expect(manifest.tables).toHaveProperty('proof_packets')
     expect(manifest.tables).toHaveProperty('deal_twin_scenarios')
     expect(manifest.tables).toHaveProperty('deal_twin_reports')
+    expect(manifest.tables).toHaveProperty('due_diligence_exports')
     expect(manifest.storage.assetCount).toBe(workspace.assets.length)
     expect(manifest.webhooks.leadEvents).toHaveLength(workspace.leads.length)
-    expect(manifest.endpoints).toHaveLength(12)
+    expect(manifest.endpoints).toHaveLength(14)
   })
 })

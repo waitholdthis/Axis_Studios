@@ -181,6 +181,18 @@ export function buildBackendEndpoints(config: BackendConfig, workspace: SaaSWork
       purpose: 'Create or tune stakeholder simulations for buyers, agents, inspectors, lenders, builders, and investors.',
       payload: 'DealTwinScenarioUpsertRequest',
     },
+    {
+      method: 'GET',
+      path: `/api/tours/${activeTourId}/due-diligence-export`,
+      purpose: 'Return signed buyer-room export packet with checksum, attestations, redactions, retention policy, and chain of custody.',
+      payload: 'DueDiligenceExport',
+    },
+    {
+      method: 'POST',
+      path: `/api/tours/${activeTourId}/due-diligence-export/sign`,
+      purpose: 'Issue a server-side export signature after proof, scan, measurement, and deal-confidence release gates pass.',
+      payload: 'DueDiligenceExportSignRequest -> SignedExportEnvelope',
+    },
   ]
 }
 
@@ -237,6 +249,7 @@ export function createBackendManifest(workspace: SaaSWorkspace, config: BackendC
       proof_packets: ['id', 'tour_id', 'trust_score', 'audit_fingerprint', 'buyer_objections', 'generated_at'],
       deal_twin_scenarios: ['id', 'tour_id', 'stakeholder', 'motivation', 'decision_weight', 'target_scene_ids', 'success_signal', 'created_at', 'updated_at'],
       deal_twin_reports: ['id', 'tour_id', 'close_probability', 'primary_stakeholder', 'friction_radar', 'offer_paths', 'scene_evidence', 'generated_at'],
+      due_diligence_exports: ['id', 'tour_id', 'export_id', 'signature', 'checksum', 'readiness', 'trust_score', 'close_probability', 'retention_days', 'attestations', 'redactions', 'chain_of_custody', 'generated_at'],
       assets: ['id', 'tour_id', 'name', 'type', 'url', 'size_mb', 'created_at'],
       leads: ['id', 'tour_id', 'name', 'email', 'phone', 'message', 'source', 'status', 'created_at'],
       review_comments: ['id', 'tour_id', 'scene_id', 'author', 'body', 'status', 'x', 'y', 'created_at'],

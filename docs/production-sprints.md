@@ -80,6 +80,18 @@ Shipped:
 Why it matters:
 Most competitors digitize the property. AxisTour now digitizes the transaction. It can rehearse the buyer conversation, price defense, inspection risk, lender support, and next-best action before a real stakeholder ever touches the deal room.
 
+## Sprint 7 — Signed Due-Diligence Export
+
+Shipped:
+- Deterministic due-diligence export packets that combine Axis Proof Layer and Axis Deal Twin signals.
+- Browser-safe export signatures, payload checksums, export IDs, retention windows, and chain-of-custody steps.
+- Release attestations for trust threshold, claim review gates, scan quality, measurement support, and Deal Twin confidence.
+- Redaction policy for visitor identifiers, webhook destinations, and draft URLs before external release.
+- A new signed due-diligence export UI panel plus backend contracts for `due_diligence_exports`, `/api/tours/:id/due-diligence-export`, and `/api/tours/:id/due-diligence-export/sign`.
+
+Why it matters:
+AxisTour now moves from simulated deal strategy into a transaction artifact. The product can package tour evidence, proof claims, buyer objections, deal probability, release gates, and custody history into a packet designed for buyer diligence rooms, agents, lenders, builders, and procurement reviewers.
+
 ## Competitive Product Standard
 
 AxisTour now needs every future sprint to preserve these minimum bars:

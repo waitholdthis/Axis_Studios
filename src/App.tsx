@@ -7,6 +7,7 @@ import { SaaSDashboard } from './components/SaaSDashboard'
 import { SpatialIntelligencePanel } from './components/SpatialIntelligencePanel'
 import { SpatialProofPanel } from './components/SpatialProofPanel'
 import { DealTwinPanel } from './components/DealTwinPanel'
+import { DueDiligenceExportPanel } from './components/DueDiligenceExportPanel'
 import { TourEditor } from './components/TourEditor'
 import { loadWorkspace, saveWorkspace, updateTourInWorkspace } from './lib/saasStore'
 
@@ -66,6 +67,8 @@ function App() {
 
       <DealTwinPanel tour={tour} />
 
+      <DueDiligenceExportPanel tour={tour} />
+
       <section className="studio" id="studio">
         <div className="studio-stage">
           <div className="stage-topbar">
@@ -85,8 +88,8 @@ function App() {
         <Building2 />
         <div>
           <p className="eyebrow">Production path</p>
-          <h2>Next: wire the generated backend contract into Supabase/Neon Postgres, R2/S3 object storage, Clerk/Auth.js, Stripe billing, signed proof-packet exports, and background image processing.</h2>
-          <p>This sprint now gives AxisTour a backend cutover cockpit: API contracts, table manifest, object-storage queue, CRM webhook handoff, Stripe price metadata, claim verification ledgers, and dry-run sync audit events.</p>
+          <h2>Next: wire the generated backend contract into Supabase/Neon Postgres, R2/S3 object storage, Clerk/Auth.js, Stripe billing, server-side export signing, and background image processing.</h2>
+          <p>This sprint now gives AxisTour signed due-diligence exports: checksums, release attestations, retention policy, redactions, custody history, backend routes, and a dedicated manifest table for transaction-room packets.</p>
         </div>
       </section>
     </main>
